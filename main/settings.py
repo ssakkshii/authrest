@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 DOCUMENT_DIRECTORY = os.path.join(BASE_DIR, 'docs')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'docs')
 
 MEDIA_URL = '/'
 
@@ -26,10 +25,17 @@ MEDIA_URL = '/'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-$(n9-y887cfk8wrhu_@wu%46i9fkh3f_%-^-@3+7-sbriwy&$l'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = 'restauth-docs'
+AWS_S3_REGION_NAME = 'ap-south-1'
 
-ALLOWED_HOSTS = ['*']
+AWS_S3_FILE_OVERWRITE = False
+AWS_QUERYSTRING_AUTH = False
+
+# SECURITY WARNING: don't run with debug turned on in prod
+# DEBUG = True
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024 * 25  # 25MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = DATA_UPLOAD_MAX_MEMORY_SIZE
@@ -46,6 +52,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'testapp.apps.TestappConfig',
     'django_filters',
+    'storages',
 ]
 
 REST_FRAMEWORK = {
